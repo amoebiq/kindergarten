@@ -21,5 +21,12 @@ public class StudentService {
 	public List<Student> getAllStudents() {
 		return studentDAO.getAllStudents();
 	}
-
+	
+	public Student getStudent(String studentId) {
+		return studentDAO.getStudent(studentId);
+	}
+	
+	public void removeStudent(String student) {
+		studentDAO.removeStudent(student);
+	}
 }

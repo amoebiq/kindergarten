@@ -27,5 +27,13 @@ public class StudentDAO {
 		String hql = "FROM Student as s order by s.studentId";
 		return (List<Student>) entityManager.createQuery(hql).getResultList();
 	}
-
+	
+	public Student getStudent(String studentId) {
+		return entityManager.find(Student.class, studentId);
+	}
+	
+	public void removeStudent(String student) {
+		entityManager.remove(getStudent(student));
+	}
+	
 }
