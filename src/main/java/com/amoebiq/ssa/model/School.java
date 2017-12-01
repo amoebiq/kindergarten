@@ -2,14 +2,19 @@ package com.amoebiq.ssa.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="school")
 public class School {
 	
 	@Id
+	@GenericGenerator(name="sequence_school_id",strategy="com.amoebiq.ssa.util.SchoolIDGenerator")
+	@GeneratedValue(generator="sequence_school_id")
 	@Column(name="id")
 	private String schoolId;
 	@Column(name="name")
