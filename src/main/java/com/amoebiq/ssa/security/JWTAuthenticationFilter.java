@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,7 +31,9 @@ import static com.amoebiq.ssa.constants.SecurityConstants.SIGN_UP_URL;
 import static com.amoebiq.ssa.constants.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
+	
+	private static final Logger logger = LogManager.getLogger(JWTAuthenticationFilter.class);
+	
 	private AuthenticationManager authenticationManager;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -41,11 +45,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-
+		
+		logger.info("Trying to login");
 		try {
 
 			ApplicationUser creds = new ObjectMapper().readValue(request.getInputStream(), ApplicationUser.class);
-
+			logger.info("Login for user ::: "+creds.getUserName());
+			
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getUserName(),
 					creds.getPassword(), new ArrayList<>()));
 
