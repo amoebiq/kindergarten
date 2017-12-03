@@ -1,19 +1,24 @@
 package com.amoebiq.ssa.model;
 
-
 import java.util.Date;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -22,6 +27,7 @@ public class Teachers {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="teacher_id")
 	private Long id;
 
 	@Column(name = "first_name")
@@ -43,6 +49,42 @@ public class Teachers {
 	private String mobile;
 	@Email
 	private String email;
+	@Column(name = "created_at", updatable = false)
+	@CreationTimestamp
+	private Date createdAt;
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	private Date updatedAt;
+	
+	@OneToOne(mappedBy="teachers")
+	@JsonBackReference
+	private ClassInfo classInfo;
+
+	public ClassInfo getClassInfo() {
+		return classInfo;
+	}
+
+	public void setClassInfo(ClassInfo classInfo) {
+		this.classInfo = classInfo;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = new Date();
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
 
 	public String getMobile() {
 		return mobile;

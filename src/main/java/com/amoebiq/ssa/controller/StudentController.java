@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ public class StudentController {
 
 	@Autowired
 	private StudentService studentService;
-
+	
+	//@CacheEvict(value="cache1",allEntries=true)
 	@GetMapping("/all")
 	public ResponseEntity<List<Student>> getAllStudents() {
 		logger.info("in get all students");
