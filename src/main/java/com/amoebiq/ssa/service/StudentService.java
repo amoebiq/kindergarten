@@ -7,26 +7,27 @@ import org.springframework.stereotype.Service;
 
 import com.amoebiq.ssa.dao.StudentDAO;
 import com.amoebiq.ssa.model.Student;
+import com.amoebiq.ssa.repository.StudentRepository;
 
 @Service
 public class StudentService {
 
 	@Autowired
-	private StudentDAO studentDAO;
+	private StudentRepository studentRepository;
 
-	public void addStudent(Student student) {
-		studentDAO.addStudent(student);
+	public Student addStudent(Student student) {
+		return studentRepository.save(student);
 	}
-	
+
 	public List<Student> getAllStudents() {
-		return studentDAO.getAllStudents();
+		return studentRepository.findAll();
 	}
-	
+
 	public Student getStudent(String studentId) {
-		return studentDAO.getStudent(studentId);
+		return studentRepository.findOne(studentId);
 	}
-	
+
 	public void removeStudent(String student) {
-		studentDAO.removeStudent(student);
+		studentRepository.delete(student);
 	}
 }

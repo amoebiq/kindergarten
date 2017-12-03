@@ -37,27 +37,27 @@ public class StudentController {
 
 	@GetMapping("/student/{id}")
 	public ResponseEntity<Student> getStudentDetails(@PathVariable("id") String studentId) {
-		
+
 		logger.info("in get student details");
-		return new ResponseEntity<Student>(studentService.getStudent(studentId),HttpStatus.OK);
+		return new ResponseEntity<Student>(studentService.getStudent(studentId), HttpStatus.OK);
 
 	}
 
 	@PostMapping("new")
-	public ResponseEntity<Void> addStudent(@RequestBody Student student, UriComponentsBuilder uriComponents) {
+	public ResponseEntity<Student> addStudent(@RequestBody Student student, UriComponentsBuilder uriComponents) {
 
 		logger.info("New Student to be added :::" + student.getFirstName());
-		studentService.addStudent(student);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(uriComponents.path("/student/{id}").buildAndExpand(student.getStudentId()).toUri());
 
-		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+		// HttpHeaders headers = new HttpHeaders();
+		// headers.setLocation(uriComponents.path("/student/{id}").buildAndExpand(student.getStudentId()).toUri());
+
+		return new ResponseEntity<Student>(studentService.addStudent(student), HttpStatus.CREATED);
 
 	}
-	
+
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> removeStudent(@PathVariable("id") String studentId) {
-		logger.info("Student deletion :::: "+studentId);
+		logger.info("Student deletion :::: " + studentId);
 		studentService.removeStudent(studentId);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
