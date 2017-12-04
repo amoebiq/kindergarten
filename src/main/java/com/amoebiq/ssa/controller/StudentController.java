@@ -32,7 +32,7 @@ public class StudentController {
 	
 	//@CacheEvict(value="cache1",allEntries=true)
 	@GetMapping("/all")
-	public ResponseEntity<List<Student>> getAllStudents() {
+	public ResponseEntity<List<Student>> getAllStudents() throws InterruptedException {
 		logger.info("in get all students");
 		return new ResponseEntity<List<Student>>(studentService.getAllStudents(), HttpStatus.OK);
 	}

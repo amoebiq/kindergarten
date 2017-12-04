@@ -27,7 +27,7 @@ public class Teachers {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="teacher_id")
+	@Column(name = "teacher_id")
 	private Long id;
 
 	@Column(name = "first_name")
@@ -55,8 +55,8 @@ public class Teachers {
 	@Column(name = "updated_at")
 	@UpdateTimestamp
 	private Date updatedAt;
-	
-	@OneToOne(mappedBy="teachers")
+
+	@OneToOne(mappedBy = "teachers")
 	@JsonBackReference
 	private ClassInfo classInfo;
 

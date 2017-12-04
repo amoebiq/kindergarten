@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static com.amoebiq.ssa.constants.SecurityConstants.SIGN_UP_URL;
+import static com.amoebiq.ssa.constants.SecurityConstants.SWAGGER_URL;
+import static com.amoebiq.ssa.constants.SecurityConstants.SWAGGER_V2_URL;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -25,8 +27,12 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-
-		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll().anyRequest()
+		
+		
+		http.csrf().disable()
+				.authorizeRequests().antMatchers(HttpMethod.GET,SWAGGER_URL).permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.GET,SWAGGER_V2_URL).permitAll().and()
+				.authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll().anyRequest()
 				.authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,15 @@ public class StudentService {
 	}
 
 	@Cacheable(value = "cache1")
-	public List<Student> getAllStudents() {
+	public List<Student> getAllStudents() throws InterruptedException {
+		Thread.sleep(10000);
 		logger.info("Getting value for all students...");
+		return studentRepository.findAll();
+	}
+	
+	@CachePut(value = "cache1")
+	public List<Student> getAllStudentsForCache() {
+		logger.info("Refreshing the cache to get student data...");
 		return studentRepository.findAll();
 	}
 
