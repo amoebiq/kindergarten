@@ -20,13 +20,13 @@ public class ClassInfoService {
 	@Autowired
 	private ClassInfoRepository classInfoRepository;
 	
-	@Cacheable("cache1")
+	@Cacheable("classCache")
 	public List<ClassInfo> allClasses() {
 		logger.info("Loading all classes from DB...");
 		return classInfoRepository.findAll();
 	}
 	
-	@CachePut("cache1")
+	@CachePut("classCache")
 	public List<ClassInfo> allClassesCache() {
 		logger.info("Refreshing the cache to get All Classes...");
 		return classInfoRepository.findAll();

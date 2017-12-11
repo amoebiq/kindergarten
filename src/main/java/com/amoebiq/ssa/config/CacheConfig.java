@@ -29,11 +29,14 @@ public class CacheConfig implements CachingConfigurer{
 	public CacheManager cacheManager() {
 		// TODO Auto-generated method stub
 		SimpleCacheManager scm = new SimpleCacheManager();
-		GuavaCache gc1 = new GuavaCache("cache1", com.google.common.cache.CacheBuilder.newBuilder()
+		GuavaCache studentCache = new GuavaCache("studentCache", com.google.common.cache.CacheBuilder.newBuilder()
 																					  .expireAfterAccess(3, TimeUnit.MINUTES)
 																					  .build());
-		
-		scm.setCaches(Arrays.asList(gc1));
+		GuavaCache classCache = new GuavaCache("classCache", com.google.common.cache.CacheBuilder.newBuilder()
+				  .expireAfterAccess(3, TimeUnit.MINUTES)
+				  .build());
+
+		scm.setCaches(Arrays.asList(studentCache,classCache));
 		
 		return scm;
 	}

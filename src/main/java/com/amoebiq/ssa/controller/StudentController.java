@@ -34,11 +34,11 @@ public class StudentController {
 	@GetMapping("/all")
 	public ResponseEntity<List<Student>> getAllStudents() throws InterruptedException {
 		logger.info("in get all students");
-		return new ResponseEntity<List<Student>>(studentService.getAllStudents(), HttpStatus.OK);
+		return new ResponseEntity<List<Student>>(studentService.allStudentsWithoutJoins(), HttpStatus.OK);
 	}
 
 	@GetMapping("/student/{id}")
-	public ResponseEntity<Student> getStudentDetails(@PathVariable("id") String studentId) {
+	public ResponseEntity<Student> getStudentDetails(@PathVariable("id") long studentId) {
 
 		logger.info("in get student details");
 		return new ResponseEntity<Student>(studentService.getStudent(studentId), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class StudentController {
 	}
 
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<Void> removeStudent(@PathVariable("id") String studentId) {
+	public ResponseEntity<Void> removeStudent(@PathVariable("id") long studentId) {
 		logger.info("Student deletion :::: " + studentId);
 		studentService.removeStudent(studentId);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

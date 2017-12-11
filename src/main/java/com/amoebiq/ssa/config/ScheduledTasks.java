@@ -20,7 +20,7 @@ import com.amoebiq.ssa.service.StudentService;
 
 @Configuration
 @Async
-@EnableScheduling
+//@EnableScheduling
 public class ScheduledTasks {
 	
 	private final Logger logger = LogManager.getLogger(ScheduledTasks.class);

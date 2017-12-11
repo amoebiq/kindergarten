@@ -1,6 +1,7 @@
 package com.amoebiq.ssa.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -52,6 +54,21 @@ public class ClassInfo {
 	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "teacher_id")
 	private Teachers teachers;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JsonBackReference
+	@JoinTable(name="STUDENT_CLASS",joinColumns=@JoinColumn(name="class_id"),inverseJoinColumns=@JoinColumn(name="student_id"))
+	private Set<Student> students;
+	
+	
+	
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
 
 	public Teachers getTeachers() {
 		return teachers;

@@ -8,25 +8,38 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedEntityGraphs;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "students")
+@NamedEntityGraphs({
+	@NamedEntityGraph(name="noJoins",attributeNodes={
+	})
+})
 public class Student {
-
+	//@GenericGenerator(name = "sequence_student_id", strategy = "com.amoebiq.ssa.util.StudentIDGenerator")
 	@Id
-	@GenericGenerator(name = "sequence_student_id", strategy = "com.amoebiq.ssa.util.StudentIDGenerator")
-	@GeneratedValue(generator = "sequence_student_id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "student_id")
-	private String studentId;
+	private long studentId;
 	@Column(name = "gender")
 	private String gender;
 	@Column(name = "first_name")
@@ -48,6 +61,20 @@ public class Student {
 	private String state;
 	@Column(name="pin_code")
 	private String pinCode;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinTable(name="STUDENT_CLASS",joinColumns=@JoinColumn(name="student_id"),inverseJoinColumns=@JoinColumn(name="class_id"))
+	private ClassInfo classInfo;
+	
+	
+
+	public ClassInfo getClassInfo() {
+		return classInfo;
+	}
+
+	public void setClassInfo(ClassInfo classInfo) {
+		this.classInfo = classInfo;
+	}
 
 	public Date getDoj() {
 		return doj;
@@ -104,15 +131,17 @@ public class Student {
 	public void setPinCode(String pinCode) {
 		this.pinCode = pinCode;
 	}
-
-	@OneToMany(mappedBy = "student", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@OneToMany(mappedBy = "student", cascade = CascadeType.DETACH, orphanRemoval = true)
+	@JsonManagedReference
 	private Set<Parents> parents = new HashSet<>();
 
-	public String getStudentId() {
+	public long getStudentId() {
 		return studentId;
 	}
 
-	public void setStudentId(String studentId) {
+	public void setStudentId(long studentId) {
 		this.studentId = studentId;
 	}
 

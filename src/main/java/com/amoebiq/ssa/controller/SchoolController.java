@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.amoebiq.ssa.masterresponse.Metrics;
+import com.amoebiq.ssa.masterresponse.SuperClassResponse;
 import com.amoebiq.ssa.model.School;
 import com.amoebiq.ssa.service.SchoolService;
 
@@ -34,6 +36,20 @@ public class SchoolController {
 	public ResponseEntity<List<School>> getAllSchools() {
 
 		logger.info("INFO - In school controller");
+		return new ResponseEntity<List<School>>(schoolService.getAllSchools(), HttpStatus.OK);
+	}
+	
+	@GetMapping("allTest")
+	public ResponseEntity<List<School>> getAllSchoolsTest() {
+
+		logger.info("INFO - In school controller");
+		List<School> schools = schoolService.getAllSchools();
+		Metrics metrics = new Metrics();
+		metrics.setCpu(12);
+		metrics.setMemory(14);
+		metrics.setStorage(16);
+		
+		//SuperClassResponse<School> scr = new SuperClassResponse<School>(metrics, schools);
 		return new ResponseEntity<List<School>>(schoolService.getAllSchools(), HttpStatus.OK);
 	}
 	

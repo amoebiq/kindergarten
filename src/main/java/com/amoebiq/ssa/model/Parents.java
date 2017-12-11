@@ -1,5 +1,6 @@
 package com.amoebiq.ssa.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Parents {
 	@Column(name = "email")
 	private String email;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JsonBackReference
 	@JoinColumn(name="student_id")
 	private Student student;
