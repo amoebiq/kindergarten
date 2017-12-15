@@ -70,4 +70,8 @@ public class StudentService {
 		student.setClassInfo(classInfo);
 		studentRepository.save(student);
 	}
+	
+	public List<Student> getStudentsByClass(long classId) {
+		return studentRepository.findStudentsByClass(classId);
+	}
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,10 +31,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "students")
-@NamedEntityGraphs({
-	@NamedEntityGraph(name="noJoins",attributeNodes={
-	})
-})
+
+	@NamedEntityGraph(name="noJoins",attributeNodes=@NamedAttributeNode(value="classInfo"))
+
 public class Student {
 	//@GenericGenerator(name = "sequence_student_id", strategy = "com.amoebiq.ssa.util.StudentIDGenerator")
 	@Id
@@ -133,7 +133,7 @@ public class Student {
 	}
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@OneToMany(mappedBy = "student", cascade = CascadeType.DETACH, orphanRemoval = true)
+	@OneToMany(mappedBy = "student", cascade = CascadeType.DETACH, orphanRemoval = true,fetch=FetchType.LAZY)
 	@JsonManagedReference
 	private Set<Parents> parents = new HashSet<>();
 

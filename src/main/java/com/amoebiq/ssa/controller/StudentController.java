@@ -56,6 +56,13 @@ public class StudentController {
 		return new ResponseEntity<Student>(studentService.addStudent(student), HttpStatus.CREATED);
 
 	}
+	
+	@GetMapping("class/{classId}")
+	public ResponseEntity<List<Student>> getStudentsByClass(@PathVariable("classId") long classId) {
+		logger.info("In get student by classes");
+		
+		return new ResponseEntity<List<Student>>(studentService.getStudentsByClass(classId),HttpStatus.OK);
+	}
 
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> removeStudent(@PathVariable("id") long studentId) {
