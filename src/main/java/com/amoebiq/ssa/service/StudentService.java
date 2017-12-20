@@ -74,4 +74,8 @@ public class StudentService {
 	public List<Student> getStudentsByClass(long classId) {
 		return studentRepository.findStudentsByClass(classId);
 	}
+	
+	public List<Student> getStudentsByClassAndGrade(String classNo,String grade) {
+		return studentRepository.findStudentsByClassNoAndGrade(classNo, grade);
+	}
 }

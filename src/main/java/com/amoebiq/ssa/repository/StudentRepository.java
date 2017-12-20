@@ -27,6 +27,9 @@ public interface StudentRepository extends JpaRepository<Student, Long>{
 	@Query(value="From Student s where s.classInfo.id=?1")
 	public List<Student> findStudentsByClass(Long classId);
 	
+	@EntityGraph(value="noJoins",type=EntityGraphType.FETCH)
+	@Query(value="From Student s where s.classInfo.classNo=?1 and s.classInfo.grade=?2")
+	public List<Student> findStudentsByClassNoAndGrade(String classNo , String grade);
 	
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -63,6 +64,15 @@ public class StudentController {
 		
 		return new ResponseEntity<List<Student>>(studentService.getStudentsByClass(classId),HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="class")
+	public ResponseEntity<List<Student>> getStudentsByClassAndGrade(@RequestParam("classNo") String classNo , @RequestParam("grade") String grade) {
+		logger.info("In get student by classes AND GRADE ::: "+classNo+" Grade ::: "+grade);
+		
+		return new ResponseEntity<List<Student>>(studentService.getStudentsByClassAndGrade(classNo, grade),HttpStatus.OK);
+	}
+	
+
 
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<Void> removeStudent(@PathVariable("id") long studentId) {
