@@ -80,4 +80,11 @@ public class StudentController {
 		studentService.removeStudent(studentId);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
+	
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<Void> removeStudentA(@PathVariable("id") long studentId) {
+		logger.info("Student deletion :::: " + studentId);
+		studentService.removeStudent(studentId);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
 }
