@@ -50,5 +50,13 @@ public class TeachersController {
 		return new ResponseEntity<Teachers>(teacherService.updateRecord(teacherId, teachers),HttpStatus.ACCEPTED);
 		
 	}
+	@PutMapping("/teacher/{id}")
+	public ResponseEntity<Teachers> updateTeacherA(@PathVariable("id") Long teacherId , @RequestBody Teachers teachers) {
+		
+		logger.info("Updating the teacher record ::: "+teacherId);
+		teachers.setId(teacherId);
+		return new ResponseEntity<Teachers>(teacherService.updateRecord(teacherId, teachers),HttpStatus.ACCEPTED);
+		
+	}
 
 }
